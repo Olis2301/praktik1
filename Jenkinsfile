@@ -10,7 +10,7 @@ pipeline {
 
         stage('Run Tests') {
             steps {
-                sh 'pytest test_app.py'
+                bat 'pytest test_app.py'
             }
         }
 
