@@ -2,19 +2,20 @@ pipeline {
     agent any
 
     environment {
-        PYTHON_EXEC = "C:\\Users\\UsEr\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python311\\python.exe"
-        PIP_EXEC = "C:\\Users\\UsEr\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python311\\Scripts\\pip.exe"
+        VENV = 'venv'
+        PYTHON_EXEC = 'C:\\Users\\UsEr\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python311\\python.exe'
+        PIP_EXEC = 'C:\\Users\\UsEr\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python311\\Scripts\\pip.exe'
     }
 
     stages {
-        stage('Install Dependencies') {
+        stage('Setup Environment & Install Dependencies') {
             steps {
                 bat '''
-                    echo Installing dependencies...
-                    set PATH=C:\\Users\\UsEr\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python311\\Scripts;%PATH%
-                    "%PYTHON_EXEC%" -m pip install -r requirements.txt
-                    echo pip exited with errorlevel %ERRORLEVEL%
-                    exit /b %ERRORLEVEL%
+                    echo Setting up virtual environment...
+                    "%PYTHON_EXEC%" -m venv %VENV%
+                    call %VENV%\\Scripts\\activate.bat
+                    "%PIP_EXEC%" install --upgrade pip
+                    "%PIP_EXEC%" install -r requirements.txt
                 '''
             }
         }
@@ -22,21 +23,9 @@ pipeline {
         stage('Run Tests') {
             steps {
                 bat '''
-                    set PATH=C:\\Users\\UsEr\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python311\\Scripts;%PATH%
+                    call %VENV%\\Scripts\\activate.bat
                     "%PYTHON_EXEC%" -m pytest test_app.py
                 '''
-            }
-        }
-
-        stage('Deploy') {
-            when {
-                anyOf {
-                    branch 'main'
-                    branch pattern: 'release/.*', comparator: 'REGEXP'
-                }
-            }
-            steps {
-                echo "Simulating deploy from branch ${env.BRANCH_NAME}"
             }
         }
     }
