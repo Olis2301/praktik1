@@ -1,21 +1,32 @@
 pipeline {
     agent any
 
-    stages {  // Blok stages ditambahkan di sini
+    environment {
+        // Menambahkan Python ke PATH di lingkungan Jenkins
+        PYTHON_PATH = "C:\\Users\\UsEr\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python311\\Scripts"
+        PYTHON_EXEC = "C:\\Users\\UsEr\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python311\\python.exe"
+        PIP_EXEC = "C:\\Users\\UsEr\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python311\\Scripts\\pip.exe"
+    }
+
+    stages {
         stage('Install Dependencies') {
             steps {
                 bat '''
-                echo Installing dependencies...
-                "C:\\Users\\UsEr\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python311\\python.exe" -m pip install -r requirements.txt
-                echo pip exited with errorlevel %ERRORLEVEL%
-                exit /b %ERRORLEVEL%
+                    echo Installing dependencies...
+                    set PATH=%PYTHON_PATH%;%PATH%
+                    "%PYTHON_EXEC%" -m pip install -r requirements.txt
+                    echo pip exited with errorlevel %ERRORLEVEL%
+                    exit /b %ERRORLEVEL%
                 '''
             }
         }
 
         stage('Run Tests') {
             steps {
-                bat '"C:\\Users\\UsEr\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\\python.exe" -m pytest test_app.py'
+                bat '''
+                    set PATH=%PYTHON_PATH%;%PATH%
+                    "%PYTHON_EXEC%" -m pytest test_app.py
+                '''
             }
         }
 
@@ -30,7 +41,7 @@ pipeline {
                 echo "Simulating deploy from branch ${env.BRANCH_NAME}"
             }
         }
-    }  // Tutup blok stages di sini
+    }
 
     post {
         success {
