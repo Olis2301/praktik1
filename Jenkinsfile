@@ -2,8 +2,6 @@ pipeline {
     agent any
 
     environment {
-        // Menambahkan Python ke PATH di lingkungan Jenkins
-        PYTHON_PATH = "C:\\Users\\UsEr\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python311\\Scripts"
         PYTHON_EXEC = "C:\\Users\\UsEr\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python311\\python.exe"
         PIP_EXEC = "C:\\Users\\UsEr\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python311\\Scripts\\pip.exe"
     }
@@ -13,7 +11,7 @@ pipeline {
             steps {
                 bat '''
                     echo Installing dependencies...
-                    set PATH=%PYTHON_PATH%;%PATH%
+                    set PATH=C:\\Users\\UsEr\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python311\\Scripts;%PATH%
                     "%PYTHON_EXEC%" -m pip install -r requirements.txt
                     echo pip exited with errorlevel %ERRORLEVEL%
                     exit /b %ERRORLEVEL%
@@ -24,7 +22,7 @@ pipeline {
         stage('Run Tests') {
             steps {
                 bat '''
-                    set PATH=%PYTHON_PATH%;%PATH%
+                    set PATH=C:\\Users\\UsEr\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python311\\Scripts;%PATH%
                     "%PYTHON_EXEC%" -m pytest test_app.py
                 '''
             }
