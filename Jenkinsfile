@@ -1,6 +1,12 @@
 pipeline {
     agent any
 
+    environment {
+        // Tentukan environment variables jika diperlukan di sini
+        // Contoh: 
+        // MY_VAR = 'value'
+    }
+
     stages {
         stage('Install Dependencies') {
             steps {
