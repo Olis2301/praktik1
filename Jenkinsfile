@@ -1,16 +1,17 @@
 pipeline {
     agent any
 
+    environment {
+        PYTHON = 'C:\\Users\\UsEr\\AppData\\Local\\Programs\\Python\\Python313\\python.exe'
+        PIP = 'C:\\Users\\UsEr\\AppData\\Local\\Programs\\Python\\Python313\\Scripts\\pip.exe'
+    }
+
     stages {
         stage('Install Dependencies') {
             steps {
                 bat '''
-                    echo Upgrading pip...
-                    python -m pip install --upgrade pip
-
                     echo Installing dependencies...
-                    python -m pip install -r requirements.txt >> pip_log.txt 2>&1
-                    type pip_log.txt
+                    "%PIP%" install -r requirements.txt
                 '''
             }
         }
@@ -19,7 +20,7 @@ pipeline {
             steps {
                 bat '''
                     echo Running tests...
-                    python -m pytest test_app.py
+                    "%PYTHON%" -m pytest test_app.py
                 '''
             }
         }
@@ -34,7 +35,7 @@ pipeline {
                     requestBody: groovy.json.JsonOutput.toJson([
                         content: "✅ Build SUCCESS on `${env.BRANCH_NAME}`\nURL: ${env.BUILD_URL}"
                     ]),
-                    url: 'https://discord.com/api/webhooks/....' // ganti dengan milikmu
+                    url: 'https://discord.com/api/webhooks/....'
                 )
             }
         }
@@ -47,7 +48,7 @@ pipeline {
                     requestBody: groovy.json.JsonOutput.toJson([
                         content: "❌ Build FAILED on `${env.BRANCH_NAME}`\nURL: ${env.BUILD_URL}"
                     ]),
-                    url: 'https://discord.com/api/webhooks/....' // ganti juga
+                    url: 'https://discord.com/api/webhooks/....'
                 )
             }
         }
