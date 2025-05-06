@@ -11,10 +11,30 @@ pipeline {
         stage('Setup Environment & Install Dependencies') {
             steps {
                 bat '''
+                    echo Checking Python Path...
+                    "%PYTHON_EXEC%" --version
+
+                    echo Checking Pip Path...
+                    "%PIP_EXEC%" --version
+
+                    echo Verifying if requirements.txt exists...
+                    if exist requirements.txt (
+                        echo requirements.txt found.
+                    ) else (
+                        echo requirements.txt not found.
+                        exit /b 1
+                    )
+
                     echo Setting up virtual environment...
                     "%PYTHON_EXEC%" -m venv %VENV%
+
+                    echo Activating Virtual Environment...
                     call %VENV%\\Scripts\\activate.bat
+
+                    echo Upgrading pip...
                     "%PIP_EXEC%" install --upgrade pip
+
+                    echo Installing dependencies...
                     "%PIP_EXEC%" install -r requirements.txt
                 '''
             }
@@ -23,6 +43,7 @@ pipeline {
         stage('Run Tests') {
             steps {
                 bat '''
+                    echo Running Tests...
                     call %VENV%\\Scripts\\activate.bat
                     "%PYTHON_EXEC%" -m pytest test_app.py
                 '''
