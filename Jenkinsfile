@@ -1,17 +1,17 @@
 pipeline {
     agent any
 
-   stage('Install Dependencies') {
-    steps {
-        bat '''
-        echo Installing dependencies...
-        "C:\\Users\\UsEr\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python311\\python.exe" -m pip install -r requirements.txt
-        echo pip exited with errorlevel %ERRORLEVEL%
-        exit /b %ERRORLEVEL%
-        '''
-    }
-}
-
+    stages {  // Blok stages ditambahkan di sini
+        stage('Install Dependencies') {
+            steps {
+                bat '''
+                echo Installing dependencies...
+                "C:\\Users\\UsEr\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python311\\python.exe" -m pip install -r requirements.txt
+                echo pip exited with errorlevel %ERRORLEVEL%
+                exit /b %ERRORLEVEL%
+                '''
+            }
+        }
 
         stage('Run Tests') {
             steps {
@@ -30,7 +30,7 @@ pipeline {
                 echo "Simulating deploy from branch ${env.BRANCH_NAME}"
             }
         }
-    }
+    }  // Tutup blok stages di sini
 
     post {
         success {
@@ -69,4 +69,4 @@ pipeline {
             }
         }
     }
-
+}
