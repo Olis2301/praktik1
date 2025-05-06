@@ -1,10 +1,6 @@
 pipeline {
     agent any
 
-    environment {
-        // Tentukan path atau variabel lain jika perlu
-    }
-
     stages {
         stage('Install Dependencies') {
             steps {
