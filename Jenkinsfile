@@ -6,19 +6,19 @@ pipeline {
         PIP = 'C:\\Users\\UsEr\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python311\\Scripts\\pip.exe'
     }
 
-stage('Install Dependencies') {
-    steps {
-        bat '''
-            echo Upgrading pip...
-            "%PIP%" install --upgrade pip
+    stages {
+        stage('Install Dependencies') {
+            steps {
+                bat '''
+                    echo Upgrading pip...
+                    "%PIP%" install --upgrade pip
 
-            echo Installing dependencies...
-            "%PIP%" install -r requirements.txt >> pip_log.txt 2>&1
-            type pip_log.txt
-        '''
-    }
-}
-
+                    echo Installing dependencies...
+                    "%PIP%" install -r requirements.txt >> pip_log.txt 2>&1
+                    type pip_log.txt
+                '''
+            }
+        }
 
         stage('Run Tests') {
             steps {
