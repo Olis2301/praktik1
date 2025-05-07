@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        PYTHON = 'C:\\Users\\UsErb\\AppData\\Local\\Programs\\Python\\Python313\\python.exe'
+        PYTHON = 'C:\\Users\\UsEr\\AppData\\Local\\Programs\\Python\\Python313\\python.exe'
         PIP = 'C:\\Users\\UsEr\\AppData\\Local\\Programs\\Python\\Python313\\Scripts\\pip.exe'
     }
 
