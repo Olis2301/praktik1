@@ -35,7 +35,7 @@ pipeline {
                     requestBody: groovy.json.JsonOutput.toJson([
                         content: "✅ Build SUCCESS on `${env.BRANCH_NAME}`\nURL: ${env.BUILD_URL}"
                     ]),
-                    url: 'https://discord.com/api/webhooks/1369640986610761728/hpQN0fT7KDqv93an1eAgnY6nfFPr1JZQIwj04uVuDFKK6y1jxTjx7NEZ37Vd1xsXb2De'
+                    url: 'https://discord.com/api/webhooks/1369578608624144384/tXq_cJqQaGsxMLrYLhe-f3Qkik5owCB-_5bGtyj6lq0Me0Zzkw6Zijtt39-7FQ7bvdRa'
                 )
             }
         }
@@ -48,7 +48,7 @@ pipeline {
                     requestBody: groovy.json.JsonOutput.toJson([
                         content: "❌ Build FAILED on `${env.BRANCH_NAME}`\nURL: ${env.BUILD_URL}"
                     ]),
-                    url: 'https://discord.com/api/webhooks/1369640986610761728/hpQN0fT7KDqv93an1eAgnY6nfFPr1JZQIwj04uVuDFKK6y1jxTjx7NEZ37Vd1xsXb2De'
+                    url: 'https://discord.com/api/webhooks/1369578608624144384/tXq_cJqQaGsxMLrYLhe-f3Qkik5owCB-_5bGtyj6lq0Me0Zzkw6Zijtt39-7FQ7bvdRa'
                 )
             }
         }
